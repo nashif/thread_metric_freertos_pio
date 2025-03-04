@@ -24,6 +24,7 @@ extern "C" int printf(const char *format, ...) {
   return rc;
 }
 
+extern "C" void tm_main(void);
 void setup() {
   Serial.begin(115200);
   while (!Serial) {
@@ -31,14 +32,7 @@ void setup() {
 
   Serial.println("FreeRTOS with Arduino framework up and running\n");
 
-  // Create the test task that will run tm_main()
-  xTaskCreate([](void *params) { tm_main(); }, // Lambda to call tm_main
-              "TestMain",                      // Task name
-              configMINIMAL_STACK_SIZE * 2,    // Stack size
-              NULL,                            // Parameters
-              tskIDLE_PRIORITY + 1,            // Priority
-              NULL                             // Task handle
-  );
+  tm_main();
 
   // Start the FreeRTOS scheduler
   vTaskStartScheduler();
