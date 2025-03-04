@@ -1,0 +1,73 @@
+/*
+ * Thread-Metric Benchmark Suite for FreeRTOS
+ * Copyright (C) 2024
+ */
+#include <Arduino.h>
+#include <STM32FreeRTOS.h>
+
+/* Logging task parameters */
+#define mainLOGGING_TASK_STACK_SIZE (configMINIMAL_STACK_SIZE * 6)
+#define mainLOGGING_MESSAGE_QUEUE_LENGTH (15)
+
+/* Function declarations */
+static void prvMiscInitialization(void);
+void tm_interrupt_raise(void);
+
+/* Global variables */
+void (*test_interrupt_handler)(void) = NULL;
+
+/* Enable printf-style debugging */
+#define ENABLE_PRINTF
+#define printf Serial.printf
+
+/* Thread-Metric test includes */
+#include "tm_api.h"
+#include "tm_porting_layer.h"
+
+/* Test main functions */
+extern void tm_main(void);
+
+/*-----------------------------------------------------------*/
+
+void setup() {
+  /* Initialize hardware */
+  prvMiscInitialization();
+
+  /* Create main test task */
+  xTaskCreate(tm_main, "TM_Main", configMINIMAL_STACK_SIZE * 2, NULL, 1, NULL);
+
+  /* Start the scheduler */
+  vTaskStartScheduler();
+
+  /* Should never get here */
+  Serial.println(F("Insufficient RAM"));
+  while (1)
+    ;
+}
+
+/*-----------------------------------------------------------*/
+
+void loop() { /* Not used */
+}
+
+/*-----------------------------------------------------------*/
+
+static void prvMiscInitialization(void) {
+  /* Initialize serial for debug output */
+  Serial.begin(115200);
+  while (!Serial) {
+    ; // Wait for serial port to connect
+  }
+
+  Serial.println(F("Thread-Metric Benchmark Suite"));
+  Serial.println(F("Starting tests..."));
+}
+
+/*-----------------------------------------------------------*/
+
+/* Thread-Metric test selection and execution */
+void tm_main(void) {
+  Serial.println(F("Thread-Metric Main Task Started"));
+  /* Delete ourselves */
+  vTaskDelete(NULL);
+}

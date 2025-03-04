@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) 2024 Loic Domaigne
+ * SPDX-License-Identifier: MIT
+ */
+#include <Arduino.h>
+#include <STM32FreeRTOS.h>
+
+#include <stdarg.h>
+
+/* tm_main() is defined in the respective bechmarking test */
+extern "C" void tm_main();
+
+// extern "C" int printf(const char *format, ...) {
+//   va_list args;
+//   va_start(args, format);
+
+//   const size_t MAX_STR_LEN = 128;
+//   char buf[MAX_STR_LEN];
+//   int rc;
+
+//   rc = vsnprintf(buf, MAX_STR_LEN - 1, format, args);
+//   Serial.print(buf);
+//   Serial.print("\r");
+//   va_end(args);
+//   return rc;
+// }
+
+static void TM_Task(void *arg) { tm_main(); }
+
+// void setup() {
+//   Serial.begin(115200);
+//   Serial.println("FreeRTOS with Arduino framework up and running\n");
+
+//   xTaskCreate(TM_Task, "TM", 1024, NULL, 1, NULL);
+//   vTaskStartScheduler();
+//   Serial.println("Insufficient RAM");
+//   while (1)
+//     ;
+// }
+
+// //------------------------------------------------------------------------------
+// // WARNING idle loop has a very small stack (configMINIMAL_STACK_SIZE)
+// // loop must never block
+// void loop() {
+//   // Not used.
+// }
+
+// basic arduino blink
+
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+  // delay(1000);
+  Serial.println("FreeRTOS with Arduino framework up and running\n");
+  // delay(1000);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+  Serial.println("Blinking LED");
+}
