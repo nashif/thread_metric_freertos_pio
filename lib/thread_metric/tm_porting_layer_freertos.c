@@ -94,10 +94,8 @@ int tm_thread_create(int thread_id, int priority,
                        /*priority*/ new_priority, &tm_thread_array[thread_id]);
 
   if (status != pdPASS) {
-    printf("tm_thread_create failed\n");
     return TM_ERROR;
   }
-  printf("tm_thread_create passed\n");
 
   /* threads start active */
   //    tm_thread_suspend(thread_id);
@@ -129,9 +127,6 @@ void tm_thread_relinquish(void) { taskYIELD(); }
    of seconds.  If successful, the function should return TM_SUCCESS.
    Otherwise, TM_ERROR should be returned.  */
 void tm_thread_sleep(int seconds) {
-  printf("tm_thread_sleep for %d seconds\n", seconds);
-  printf("portTICK_RATE_MS: %d\n", portTICK_RATE_MS);
-  printf("configTICK_RATE_HZ: %d\n", configTICK_RATE_HZ);
   vTaskDelay((seconds * 1000U) / portTICK_RATE_MS);
 }
 

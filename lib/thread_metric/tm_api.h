@@ -69,7 +69,7 @@ extern "C" {
  * option.  */
 
 #ifndef TM_TEST_DURATION
-#define TM_TEST_DURATION 5
+#define TM_TEST_DURATION 30
 #endif
 
 /* Define RTOS Neutral APIs. RTOS vendors should fill in the guts of the

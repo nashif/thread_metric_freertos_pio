@@ -73,7 +73,6 @@ void tm_basic_processing_initialize(void);
 /* Define main entry point.  */
 
 void tm_main() {
-  printf("tm_basic_processing_test\n");
   /* Initialize the test.  */
   tm_initialize(tm_basic_processing_initialize);
 }
@@ -95,9 +94,6 @@ void tm_basic_processing_initialize(void) {
 
 /* Define the basic processing thread.  */
 void tm_basic_processing_thread_0_entry(void) {
-  printf("tm_basic_processing_thread_0_entry\n");
-  printf("tm_basic_processing_thread_0_entry\n");
-  printf("tm_basic_processing_thread_0_entry\n");
 
   int i;
 
@@ -109,14 +105,12 @@ void tm_basic_processing_thread_0_entry(void) {
   }
 
   while (1) {
-    printf("tm_basic_processing_thread_0_entry while\n");
 
     /* Loop through the basic processing array, add the previous
        contents with the contents of the tm_basic_processing_counter
        and xor the result with the previous value...   just to eat
        up some time.  */
     for (i = 0; i < 1024; i++) {
-      printf("tm_basic_processing_thread_0_entry for i=%d\n", i);
       /* Update each array entry.  */
       tm_basic_processing_array[i] =
           (tm_basic_processing_array[i] + tm_basic_processing_counter) ^
@@ -130,7 +124,6 @@ void tm_basic_processing_thread_0_entry(void) {
 
 /* Define the basic processing reporting thread.  */
 void tm_basic_processing_thread_report(void) {
-  printf("tm_basic_processing_thread_report\n");
   unsigned long last_counter;
   unsigned long relative_time;
 
@@ -141,7 +134,6 @@ void tm_basic_processing_thread_report(void) {
   relative_time = 0;
 
   while (1) {
-    printf("tm_basic_processing_thread_report while\n");
 
     /* Sleep to allow the test to run.  */
     tm_thread_sleep(TM_TEST_DURATION);
